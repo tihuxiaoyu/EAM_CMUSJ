@@ -23,3 +23,5 @@ class RepairRequisitionForm:
         f'{self.asset_info['固定资产编号']}_'
         f'{self.asset_info[self.order_number]}.xlsx'''
         ws.save(form_name_n)
+
+        print('维修申请单已经创建！')
