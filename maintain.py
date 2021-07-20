@@ -13,8 +13,12 @@ class Maintain():
     def __init__(self):
         """初始化"""
         self.settings = Settings(order_numbers)
+        self.all_data = asset_database.all_data
+        # 设备信息
         self.asset_info = {}
+        # 维修单号
         self.order_nummber = self.settings.order_number
+        # 设备维修的字典
         self.maintain_order = {}
 
     def main(self):
@@ -29,9 +33,9 @@ class Maintain():
                 while True:
                     try:
                         asset_number = input('请输入设备资产编号：\n')
-                        self.asset_info = asset_database.all_data[asset_number]
+                        self.asset_info = self.all_data[asset_number]
                         print(self.asset_info)
-                        self.asset_info.setdefault(self.order_nummber, {})
+                        self.maintain_order.setdefault(self.order_nummber, {})
                         break
                     except KeyError:
                         print('没有找到该资产！')
@@ -40,6 +44,11 @@ class Maintain():
                 self._input_repairs_info()
                 self._input_parts_info()
                 self._input_maintain_agency_info()
+                # 把维修信息加入固定资产的类中
+                self.asset_info['设备维修'] = self.maintain_order
+                self.all_data[asset_number] = self.asset_info
+                # 存储文件
+                self.save_asset_info()
 
                 # 创建一个固定资产实例
                 asset = Asset(self.asset_info, self.order_nummber)
@@ -75,13 +84,13 @@ class Maintain():
                  '报修时间': repair_time,
                  '报修人': repair_man,
                  '报修人联系方式': repair_man_tel,}
-        self.asset_info[self.order_nummber].setdefault('报修内容', repairs)
-        print(self.asset_info)
+        self.maintain_order[self.order_nummber].setdefault('报修内容', repairs)
+        print(self.maintain_order[self.order_nummber])
         
      # 配件信息
     def _input_parts_info(self):
         """输入配件信息"""
-        self.asset_info[self.order_nummber].setdefault('parts_info', {})
+        self.maintain_order[self.order_nummber].setdefault('parts_info', {})
         num = 0
         active = True
         while active:
@@ -108,12 +117,12 @@ class Maintain():
                         '配件型号': part_type,
                         '配件价格': part_price,
                         '配件数量': part_number,}
-                self.asset_info[self.order_nummber]['parts_info'].\
+                self.maintain_order[self.order_nummber]['parts_info'].\
                 setdefault(parts_info_n, parts)
             else:
                 active = False
 
-        print(self.asset_info)
+        print(self.maintain_order[self.order_nummber])
 
     def _input_maintain_agency_info(self):
         """输入维修代理商信息"""
@@ -122,10 +131,10 @@ class Maintain():
         # 存储代理商信息的字典maintain_agency
         maintain_agency = {'维修代理商': agency_name,
                             '联系方式': agency_tel,}
-        self.asset_info[self.order_nummber].setdefault('维修代理商', 
+        self.maintain_order[self.order_nummber].setdefault('维修代理商', 
             maintain_agency)
 
-        print(self.asset_info)
+        print(self.maintain_order[self.order_nummber])
 
     def _input_maintain_info(self):
         """输入维修信息"""
@@ -144,10 +153,19 @@ class Maintain():
                         '维修结束时间': end_time,
                         '维修工程师': maintain_engineer,
                         '工程师联系方式': engineer_tel,}
-        self.asset_info[self.order_nummber].setdefault('维修信息', 
+        self.maintain_order[self.order_nummber].setdefault('维修信息', 
             maintain_info)
 
-        print(self.asset_info)
+        print(self.maintain_order[self.order_nummber])
+
+    def save_asset_info(self):
+        """把包含维修信息的设备信息存储至文档"""
+        
+        print("Writing results...")
+        with open('asset_database.py', 'w') as f:
+            f.write('#-*-coding:gbk-*-\n''all_data = ' + pp.pformat(self.all_data))
+        print('Done')
+        print(self.all_data)
 
 if __name__ == '__main__':
     """创建一个维修实例并执行主程序"""

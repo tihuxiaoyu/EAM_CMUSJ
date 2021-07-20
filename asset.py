@@ -8,6 +8,7 @@ class Asset:
         self.sheet_name = 'Sheet1'
         self.asset_info = asset_info
         self.order_number = order_number
+        self.maintain_order_1 = asset_info['设备维修'][order_number]
 
     def creat_form(self):
         """创建维修及配件申请单"""
@@ -15,7 +16,7 @@ class Asset:
         sheet = wb[self.sheet_name]
 
         sheet['B2'] = self.asset_info['使用部门']
-        sheet['F2'] = self.asset_info[self.order_number]['报修内容']['报修时间']
+        sheet['F2'] = self.maintain_order_1['报修内容']['报修时间']
         sheet['B3'] = self.asset_info['固定资产名称']
         sheet['F3'] = self.asset_info['固定资产编号']
         sheet['B4'] = self.asset_info['原值']
@@ -23,9 +24,9 @@ class Asset:
         sheet['B5'] = self.asset_info['标准型号']
         sheet['F5'] = self.asset_info['标准经销商']
         sheet['B6'] = self.asset_info['序列号']
-        sheet['B7'] = self.asset_info[self.order_number]['报修内容']['故障描述']
+        sheet['B7'] = self.maintain_order_1['报修内容']['故障描述']
 
-        parts_info = self.asset_info[self.order_number]['parts_info']
+        parts_info = self.maintain_order_1['parts_info']
         row_n = 10
         for key in parts_info:
             sheet.cell(row=row_n, column=1).value = parts_info[key]['配件名称']
@@ -38,8 +39,8 @@ sheet.cell(row=row_n, column=4).value * sheet.cell(row=row_n, column=5).value
 
         sheet['F15'] = '=SUM(F10:F14)'
 
-        sheet['B17'] = self.asset_info[self.order_number]['维修代理商']['维修代理商']
-        sheet['F17'] = self.asset_info[self.order_number]['维修代理商']['联系方式']
+        sheet['B17'] = self.maintain_order_1['维修代理商']['维修代理商']
+        sheet['F17'] = self.maintain_order_1['维修代理商']['联系方式']
 
 
 

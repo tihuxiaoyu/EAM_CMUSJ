@@ -40,7 +40,8 @@ for row in range(2, sheet.max_row + 1):
         '国别': nationality, '标准生产厂家': factory, '标准经销商': agency,
         '使用部门': user_department, '存放地点': stor_place,
         '标准存放地点': st_stor_place, '实际地点编码': place_number,
-        '负责工程师': engineer, '负责人': officer, '使用年限': ser_years}
+        '负责工程师': engineer, '负责人': officer, '使用年限': ser_years, 
+        '设备维修': {}}
 
 
 # asset_data.decode('UTF-8').encode(type)
