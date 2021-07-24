@@ -21,10 +21,11 @@ class Settings:
         else:
             self._order_number = f'{date}001'
 
-        print(self._order_number)
+        print(f'本次维修工单号为：{self._order_number}')
         self.order_numbers.append(self._order_number)
-        file = open('order_numbers.py', 'w')
-        file.write('all_data = ' + pp.pformat(self.order_numbers))
+        with open('order_numbers.py', 'w') as f:
+            f.write('all_data = ' + pp.pformat(self.order_numbers))
+        print('新的工单号已存储！')
 
     # 访问器 - getter方法
     @property

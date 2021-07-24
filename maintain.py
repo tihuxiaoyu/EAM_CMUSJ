@@ -96,7 +96,7 @@ class Maintain():
         num = 0
         active = True
         while active:
-            anwser = input('是否有新的配件信息？（Y/N）')
+            anwser = input('是否有新的配件信息？（Y/N）\n')
             if anwser.upper() == 'Y':
                 num += 1
                 parts_info_n = '配件信息' + str(num)
