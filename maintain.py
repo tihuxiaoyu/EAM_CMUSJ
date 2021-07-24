@@ -54,6 +54,8 @@ class Maintain():
                 asset = Asset(self.asset_info, self.order_nummber)
                 # 生成维修申请表
                 asset.creat_form()
+                asset.creat_contract()
+                asset.creat_receiving_report()
             else:
                 break
             
@@ -69,10 +71,10 @@ class Maintain():
                 repair_time = input('''请输入报修时间（默认为当前时间）\
 （格式：YYYY-MM-DD）：\n''')
                 if len(repair_time) == 0:
-                    repair_time = datetime.date.today()
+                    repair_time = str(datetime.date.today())
                 else:
-                    repair_time = datetime.datetime.strptime(repair_time, \
-                        '%Y-%m-%d')
+                    repair_time = str(datetime.datetime.strptime(repair_time, 
+                        '%Y-%m-%d'))
                 break
             except ValueError:
                 print('时间格式错误！')
@@ -165,7 +167,7 @@ class Maintain():
         with open('asset_database.py', 'w') as f:
             f.write('#-*-coding:gbk-*-\n''all_data = ' + pp.pformat(self.all_data))
         print('Done')
-        print(self.all_data)
+        # print(self.all_data)
 
 if __name__ == '__main__':
     """创建一个维修实例并执行主程序"""
