@@ -3,13 +3,16 @@
 
 import openpyxl as op, pprint as pp
 
-print('Opening workbook...')
+import asset_database
 
-wb = op.load_workbook('本溪南湖20210120.xlsx')
+print('打开固定资产文档...')
+file_name = input('请输入固定资产文件名（本目录下文件或绝对路径/.xlsx）\n')
+
+wb = op.load_workbook(file_name)
 sheet = wb['Sheet1']
 
 # 字典asset_data存储固定资产数据
-asset_data = {}
+asset_data = asset_database.all_data
 print('Reading rows...')
 for row in range(2, sheet.max_row + 1):
     # 表格中每行数据读取出来
