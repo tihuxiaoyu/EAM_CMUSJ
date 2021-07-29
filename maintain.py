@@ -1,8 +1,9 @@
 import datetime
 import pprint as pp
+import json
 
 import openpyxl
-import asset_database
+# import asset_database
 import order_numbers
 from asset import Asset
 from settings import Settings
@@ -12,14 +13,17 @@ class Maintain():
 
     def __init__(self):
         """初始化"""
-        self.settings = Settings(order_numbers)
-        self.all_data = asset_database.all_data
+        self.settings = Settings()
+        # self.all_data = asset_database.all_data
+
         # 设备信息
         self.asset_info = {}
         # 维修单号
         self.order_nummber = self.settings.order_number
         # 设备维修的字典
         self.maintain_order = {}
+        with open('asset_database.json') as f:
+            self.all_data = json.load(f)
 
     def main(self):
         while True:
@@ -164,8 +168,8 @@ class Maintain():
         """把包含维修信息的设备信息存储至文档"""
         
         print("Writing results...")
-        with open('asset_database.py', 'w') as f:
-            f.write('#-*-coding:gbk-*-\n''all_data = ' + pp.pformat(self.all_data))
+        with open('asset_database.json', 'w') as f:
+            json.dump(self.all_data, f, ensure_ascii=False, indent=4)
         print('Done')
         # print(self.all_data)
 

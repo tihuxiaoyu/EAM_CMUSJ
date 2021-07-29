@@ -1,13 +1,16 @@
 import datetime
 import pprint as pp
+import json
 
-import order_numbers
+# import order_numbers
 
 class Settings:
     """固定资产管理系统的参数设置"""
-    def __init__(self, order_numbers):
+    def __init__(self):
         """初始化系统的设置"""
-        self.order_numbers = order_numbers.all_data
+        # self.order_numbers = order_numbers.all_data
+        with open('order_numbers.json') as f:
+            self.order_numbers = json.load(f)
         self._order_number = self.order_numbers[-1]
 
     def renew_order_number(self):
@@ -23,8 +26,9 @@ class Settings:
 
         print(f'本次维修工单号为：{self._order_number}')
         self.order_numbers.append(self._order_number)
-        with open('order_numbers.py', 'w') as f:
-            f.write('all_data = ' + pp.pformat(self.order_numbers))
+        with open('order_numbers.json', 'w') as f:
+            json.dump(self.order_numbers, f, indent=4)
+        #     f.write('all_data = ' + pp.pformat(self.order_numbers))
         print('新的工单号已存储！')
 
     # 访问器 - getter方法
@@ -34,5 +38,5 @@ class Settings:
         return self._order_number
 
 if __name__ == '__main__':
-    settings = Settings(order_numbers)
+    settings = Settings()
     settings.renew_order_number()

@@ -3,7 +3,8 @@
 
 import openpyxl as op, pprint as pp
 
-import asset_database
+import json
+
 
 print('打开固定资产文档...')
 file_name = input('请输入固定资产文件名（本目录下文件或绝对路径/.xlsx）\n')
@@ -12,7 +13,8 @@ wb = op.load_workbook(file_name)
 sheet = wb['Sheet1']
 
 # 字典asset_data存储固定资产数据
-asset_data = asset_database.all_data
+with open('asset_database.json') as f:
+    asset_data = json.load(f)
 print('Reading rows...')
 for row in range(2, sheet.max_row + 1):
     # 表格中每行数据读取出来
@@ -47,9 +49,11 @@ for row in range(2, sheet.max_row + 1):
         '设备维修': {}}
 
 
-# asset_data.decode('UTF-8').encode(type)
+
 print("Writing results...")
-result_file = open('asset_database.py', 'w')
-result_file.write('#-*-coding:gbk-*-\n''all_data = ' + pp.pformat(asset_data))
+
+with open('asset_database.json', 'w') as f:
+    json.dump(asset_data, f, ensure_ascii=False, indent=4)
+    
 print('Done')
 print(asset_data)
