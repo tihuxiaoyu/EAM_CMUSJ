@@ -52,7 +52,7 @@ for row in range(2, sheet.max_row + 1):
 
 print("Writing results...")
 
-with open('asset_database.json', 'w') as f:
+with open('asset_database.json', 'w',encoding='utf-8') as f:
     json.dump(asset_data, f, ensure_ascii=False, indent=4)
     
 print('Done')
